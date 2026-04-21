@@ -561,7 +561,7 @@
     _onKey(e) {
       // Ignore when the user is typing.
       const t = e.target;
-      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|VIDEO)$/.test(t.tagName))) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
 
       const key = e.key;

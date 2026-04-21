@@ -286,69 +286,39 @@ section{
 <section data-label="Demos en Vivo">
   <div class="ey">EJEMPLOS REALES · PRODUCCIÓN CON IA</div>
   <div class="htitle" style="font-size:68px;margin-bottom:12px!important">Así se ve el contenido<br>que producimos.</div>
-  <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:8px">
+  <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr;gap:22px;margin-top:8px;min-height:0">
 
-    <!-- ═══ VIDEO 1: UGC CHICA INFOPRODUCTO ═══
-         Archivo: uploads/UGC Chica-influencer, infoproducto.mp4
-         → renombrar a: videos/ugc-chica.mp4
-         Reemplazar div.vph por:
-         <video controls style="width:100%;height:100%;object-fit:contain;background:#000" preload="metadata">
-           <source src="videos/ugc-chica.mp4" type="video/mp4">
-         </video>
-    ═══ -->
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:12px;min-height:0">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(123,53,244,.2);border:1px solid rgba(123,53,244,.4);border-radius:20px;color:var(--v)">UGC · Chica</span>
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);border-radius:20px;color:var(--c)">Infoproducto</span>
       </div>
-      <div style="border-radius:12px;flex:1;min-height:360px;overflow:hidden;background:#000">
-        <video controls style="width:100%;height:100%;object-fit:contain" preload="metadata">
-          <source src="videos/ugc-chica-infoproducto.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div style="font-size:22px;color:var(--mu);line-height:1.4">Influencer digital tipo UGC para marcas de infoproductos. Fotorrealista, voz clonada.</div>
+      <video controls style="width:100%;flex:1;min-height:0;object-fit:cover;background:#000;border-radius:12px;display:block" preload="metadata">
+        <source src="videos/ugc-chica-infoproducto.mp4" type="video/mp4">
+      </video>
+      <div style="font-size:22px;color:var(--mu);line-height:1.4;flex-shrink:0">Influencer digital tipo UGC para marcas de infoproductos. Fotorrealista, voz clonada.</div>
     </div>
 
-    <!-- ═══ VIDEO 2: AVATAR ECONÓMICO ═══
-         Archivo: uploads/Avatar económico hablando a camara.mp4
-         → renombrar a: videos/avatar-economico.mp4
-         Reemplazar div.vph por:
-         <video controls style="width:100%;height:100%;object-fit:contain;background:#000" preload="metadata">
-           <source src="videos/avatar-economico.mp4" type="video/mp4">
-         </video>
-    ═══ -->
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:12px;min-height:0">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.3);border-radius:20px;color:var(--g)">Avatar Económico</span>
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.2);border-radius:20px;color:var(--g)">Cámara</span>
       </div>
-      <div style="border-radius:12px;flex:1;min-height:360px;overflow:hidden;background:#000">
-        <video controls style="width:100%;height:100%;object-fit:contain" preload="metadata">
-          <source src="videos/avatar-economico.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div style="font-size:22px;color:var(--mu);line-height:1.4">Portavoz hablando directo a cámara. Sin grabación, sin modelo, sin locación.</div>
+      <video controls style="width:100%;flex:1;min-height:0;object-fit:cover;background:#000;border-radius:12px;display:block" preload="metadata">
+        <source src="videos/avatar-economico.mp4" type="video/mp4">
+      </video>
+      <div style="font-size:22px;color:var(--mu);line-height:1.4;flex-shrink:0">Portavoz hablando directo a cámara. Sin grabación, sin modelo, sin locación.</div>
     </div>
 
-    <!-- ═══ VIDEO 3: AVATAR PERSONA REAL CLONADA ═══
-         Archivo: [pendiente — por agregar]
-         → guardar como: videos/influencer-clonada.mp4
-         Reemplazar div.vph por:
-         <video controls style="width:100%;height:100%;object-fit:contain;background:#000" preload="metadata">
-           <source src="videos/influencer-clonada.mp4" type="video/mp4">
-         </video>
-    ═══ -->
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:12px;min-height:0">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(209,50,184,.1);border:1px solid rgba(209,50,184,.3);border-radius:20px;color:var(--m)">Persona Real</span>
         <span style="font-family:'JetBrains Mono';font-size:20px;padding:5px 14px;background:rgba(209,50,184,.06);border:1px solid rgba(209,50,184,.2);border-radius:20px;color:var(--m)">Voz + Avatar</span>
       </div>
-      <div style="border-radius:12px;flex:1;min-height:360px;overflow:hidden;background:#000">
-        <video controls style="width:100%;height:100%;object-fit:contain" preload="metadata">
-          <source src="videos/influencer-clonada.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div style="font-size:22px;color:var(--mu);line-height:1.4">Persona real clonada: voz, gestos y apariencia replicados con IA. El más avanzado.</div>
+      <video controls style="width:100%;flex:1;min-height:0;object-fit:cover;background:#000;border-radius:12px;display:block" preload="metadata">
+        <source src="videos/influencer-clonada.mp4" type="video/mp4">
+      </video>
+      <div style="font-size:22px;color:var(--mu);line-height:1.4;flex-shrink:0">Persona real clonada: voz, gestos y apariencia replicados con IA. El más avanzado.</div>
     </div>
 
   </div>
