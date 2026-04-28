@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orion AI Consulting — Planes & Inversión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070511;--bg2:#0F0A1E;
+  --v:#7B35F4;--c:#00D4FF;--g:#00E5A0;--m:#D132B8;
+  --a:#FFB845;
+  --tx:#F0EAFF;--mu:#9086A8;
+  --gb:linear-gradient(135deg,#7B35F4,#D132B8);
+  --gi:linear-gradient(135deg,#7B35F4,#00D4FF);
+  --gg2:linear-gradient(135deg,#00E5A0,#00D4FF);
+  --glass:rgba(123,53,244,0.06);
+  --gborder:rgba(123,53,244,0.2);
+}
+html,body{background:var(--bg);color:var(--tx);font-family:'Outfit',sans-serif;overflow:hidden;width:100%;height:100%}
+
+/* Stage scaling */
+#stage{position:fixed;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center;background:var(--bg)}
+#stage section{position:absolute;inset:0;width:1920px;height:1080px;display:none;flex-direction:column;padding:88px 110px 72px;
+  background:radial-gradient(circle at 15% 15%,#0F0A1E 0%,#070511 65%);overflow:hidden}
+#stage section.on{display:flex}
+
+#pcv{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* Fixed chrome */
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--v),var(--c));z-index:200;transition:width .5s ease}
+.logo-fixed{position:fixed;top:24px;right:40px;z-index:200;font-family:'Bebas Neue';font-size:30px;letter-spacing:.1em;color:var(--tx)}
+.logo-fixed em{font-style:normal;color:var(--v)}
+#sc{position:fixed;bottom:28px;right:56px;z-index:200;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--mu)}
+#dots{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:8px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--mu);opacity:.35;cursor:pointer;transition:all .3s}
+.dot.on{background:var(--v);opacity:1;width:20px;border-radius:3px}
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:200;width:48px;height:48px;border-radius:50%;background:rgba(123,53,244,.08);border:1px solid rgba(123,53,244,.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;color:var(--mu)}
+.nav-arrow:hover{background:rgba(123,53,244,.18);color:var(--tx);border-color:rgba(123,53,244,.5)}
+#prev{left:24px}#next{right:24px}
+
+/* Type */
+.ey{font-family:'JetBrains Mono',monospace;font-size:24px;color:var(--c);letter-spacing:.12em;text-transform:uppercase;margin-bottom:36px}
+.htitle{font-family:'Bebas Neue',sans-serif;line-height:1.05;letter-spacing:.02em;color:var(--tx);margin-bottom:24px}
+.sub{font-size:30px;font-weight:300;color:var(--mu);line-height:1.55}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Glass card */
+.gc{background:var(--glass);border:1px solid var(--gborder);border-radius:16px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .3s,box-shadow .3s,border-color .3s}
+.gc:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(123,53,244,.2);border-color:rgba(123,53,244,.5)}
+
+/* Glow text */
+.gv{text-shadow:0 0 40px rgba(123,53,244,.6)}
+.gc2{text-shadow:0 0 40px rgba(0,212,255,.5)}
+.gg{text-shadow:0 0 40px rgba(0,229,160,.5)}
+.gm{text-shadow:0 0 40px rgba(209,50,184,.5)}
+.gam{text-shadow:0 0 40px rgba(255,184,69,.5)}
+
+/* Gradient text */
+.gtb{background:var(--gb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gti{background:var(--gi);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Plan cards */
+.plan-card{padding:48px 42px;display:flex;flex-direction:column;height:100%;position:relative;transition:all .35s}
+.plan-card .tier-name{font-family:'Bebas Neue';font-size:74px;letter-spacing:.04em;line-height:.95;margin-bottom:8px}
+.plan-card .tier-tag{font-family:'JetBrains Mono';font-size:15px;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);margin-bottom:32px}
+.plan-card .tier-price{font-family:'JetBrains Mono';font-weight:600;font-size:62px;line-height:1;margin-bottom:6px}
+.plan-card .tier-period{font-size:18px;color:var(--mu);margin-bottom:30px}
+.plan-card .tier-divider{height:1px;background:rgba(255,255,255,.08);margin:0 0 26px}
+.plan-card ul{list-style:none;padding:0;margin:0;flex:1}
+.plan-card li{font-size:19px;line-height:1.5;color:var(--tx);padding:9px 0 9px 30px;position:relative;font-weight:400}
+.plan-card li::before{content:'';position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)}
+.plan-card li.no-feat{color:var(--mu);opacity:.55}
+.plan-card li.no-feat::before{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15)}
+
+/* Featured plan ring */
+.featured{position:relative;border:1.5px solid var(--v)!important;background:rgba(123,53,244,.08)!important}
+.featured-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7B35F4,#D132B8);padding:6px 22px;border-radius:30px;font-family:'JetBrains Mono';font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#fff;white-space:nowrap;font-weight:600}
+
+/* Comparison table */
+.ctbl{width:100%;border-collapse:collapse;font-size:18px}
+.ctbl th{font-family:'Bebas Neue';font-size:32px;letter-spacing:.05em;text-align:center;padding:14px 12px;border-bottom:2px solid rgba(255,255,255,.1);font-weight:400}
+.ctbl td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);text-align:center;color:var(--tx)}
+.ctbl td:first-child{text-align:left;color:var(--mu);font-size:17px;padding-left:24px}
+.ctbl .check{color:var(--g);font-size:20px;font-weight:600}
+.ctbl .x{color:rgba(255,255,255,.18);font-size:20px}
+.ctbl tr.featured-row{background:rgba(123,53,244,.04)}
+
+/* Pulse dot */
+@keyframes pulse{0%,100%{opacity:.85}50%{opacity:.25}}
+.pdot{animation:pulse 2s ease-in-out infinite}
+
+/* Stagger entry */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.fade-in.show{opacity:1;transform:none}
+
+/* ROI table cells */
+.roi-table{width:100%;border-collapse:collapse;font-size:21px}
+.roi-table td{padding:13px 26px;border-bottom:1px solid rgba(255,255,255,.05)}
+.roi-table .roi-label{color:var(--mu);font-size:21px}
+.roi-table .roi-old{text-align:center;color:var(--mu);text-decoration:line-through;opacity:.55;font-family:'JetBrains Mono';font-size:21px}
+.roi-table .roi-new{text-align:center;color:var(--g);font-weight:600;font-family:'JetBrains Mono';font-size:21px}
+.roi-table .roi-save{text-align:center;color:var(--c);font-weight:600;font-family:'JetBrains Mono';font-size:21px}
+
+/* Process steps */
+.step-num{font-family:'Bebas Neue';font-size:80px;color:rgba(123,53,244,.32);line-height:1;letter-spacing:0}
+
+</style>
+</head>
+<body>
+
+<canvas id="pcv"></canvas>
+<div id="prog" style="width:8.33%"></div>
+<div class="logo-fixed">ORION <em>AI</em></div>
+<div id="sc">01/12</div>
+<div class="nav-arrow" id="prev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+<div class="nav-arrow" id="next"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+<div id="dots"></div>
+
+<div id="stage">
+
+<!-- ═══════════════════════════════ S1: PORTADA ═══════════════════════════════ -->
+<section class="on" data-label="Portada">
+  <div class="ey" style="position:relative;z-index:1">ORION AI CONSULTING · PROPUESTA DE INVERSIÓN</div>
+  <div style="position:relative;z-index:1;margin-bottom:24px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:1.05;letter-spacing:.02em;color:var(--tx)">TU MARCA, EN AUTOMÁTICO.<br><span class="gti">24 HORAS AL DÍA, 7 DÍAS A LA SEMANA.</span></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:54px;line-height:1.1;letter-spacing:.02em;color:var(--mu);margin-top:14px">PLANES, INVERSIÓN Y CÓMO ARRANCAMOS JUNTOS.</div>
+  </div>
+  <div class="sub" style="margin-top:28px;max-width:880px;position:relative;z-index:1">
+    Tres niveles de presencia. Un complemento que lo lleva todo a piloto automático.<br>Construimos la fábrica de contenido de tu marca.
+  </div>
+  <div style="display:flex;gap:24px;margin-top:56px;position:relative;z-index:1" id="s1kpis">
+    <div class="gc fade-in" style="padding:30px 44px;flex:1;text-align:center">
+      <div class="mono gv" style="font-size:62px;font-weight:600">3</div>
+      <div style="font-size:22px;color:var(--mu);margin-top:6px">planes pensados<br>para tu etapa</div>
+    </div>
+    <div class="gc fade-in" style="padding:30px 44px;flex:1;text-align:center">
+      <div class="mono gc2" style="font-size:62px;font-weight:600">+1</div>
+      <div style="font-size:22px;color:var(--mu);margin-top:6px">complemento<br>despreocúpate</div>
+    </div>
+    <div class="gc fade-in" style="padding:30px 44px;flex:1;text-align:center">
+      <div class="mono gg" style="font-size:62px;font-weight:600">7 DÍAS</div>
+      <div style="font-size:22px;color:var(--mu);margin-top:6px">de tu primer SÍ<br>a tu primera publicación</div>
+    </div>
+  </div>
+  <div style="position:absolute;top:-180px;right:-180px;width:760px;height:760px;background:radial-gradient(circle,rgba(123,53,244,.18) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-200px;left:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,.07) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S2: EL RETO ═══════════════════════════════ -->
+<section data-label="El Reto">
+  <div class="ey">EL CONTEXTO QUE YA CONOCES</div>
+  <div class="htitle" style="font-size:78px;max-width:1300px">Producir contenido en serio<br>sigue siendo lento, caro y frágil.</div>
+  <div class="sub" style="margin-top:18px;margin-bottom:50px;max-width:1100px">Por eso construimos Orion: un sistema que entrega volumen, calidad y consistencia, sin equipo de producción tradicional.</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;flex:1">
+    <div class="gc fade-in" style="padding:36px 30px;border-left:3px solid rgba(220,60,60,.55);position:relative">
+      <div class="pdot" style="position:absolute;top:20px;right:20px;width:9px;height:9px;border-radius:50%;background:rgba(220,60,60,.8)"></div>
+      <div style="font-family:'Bebas Neue';font-size:38px;letter-spacing:.05em;color:var(--tx);margin-bottom:12px">TIEMPO</div>
+      <div style="font-family:'JetBrains Mono';font-size:36px;color:#FF6F6F;font-weight:600;margin-bottom:8px">2–6 sem</div>
+      <div style="font-size:19px;color:var(--mu);line-height:1.5">desde brief<br>hasta publicación</div>
+    </div>
+    <div class="gc fade-in" style="padding:36px 30px;border-left:3px solid rgba(220,60,60,.55);position:relative">
+      <div class="pdot" style="position:absolute;top:20px;right:20px;width:9px;height:9px;border-radius:50%;background:rgba(220,60,60,.8)"></div>
+      <div style="font-family:'Bebas Neue';font-size:38px;letter-spacing:.05em;color:var(--tx);margin-bottom:12px">COSTO</div>
+      <div style="font-family:'JetBrains Mono';font-size:36px;color:#FF6F6F;font-weight:600;margin-bottom:8px">$2K–$10K</div>
+      <div style="font-size:19px;color:var(--mu);line-height:1.5">por producción<br>de campaña</div>
+    </div>
+    <div class="gc fade-in" style="padding:36px 30px;border-left:3px solid rgba(220,60,60,.55);position:relative">
+      <div class="pdot" style="position:absolute;top:20px;right:20px;width:9px;height:9px;border-radius:50%;background:rgba(220,60,60,.8)"></div>
+      <div style="font-family:'Bebas Neue';font-size:38px;letter-spacing:.05em;color:var(--tx);margin-bottom:12px">VOLUMEN</div>
+      <div style="font-family:'JetBrains Mono';font-size:36px;color:#FF6F6F;font-weight:600;margin-bottom:8px">4–10/mes</div>
+      <div style="font-size:19px;color:var(--mu);line-height:1.5">cuando necesitas<br>1 a 2 al día</div>
+    </div>
+    <div class="gc fade-in" style="padding:36px 30px;border-left:3px solid rgba(220,60,60,.55);position:relative">
+      <div class="pdot" style="position:absolute;top:20px;right:20px;width:9px;height:9px;border-radius:50%;background:rgba(220,60,60,.8)"></div>
+      <div style="font-family:'Bebas Neue';font-size:38px;letter-spacing:.05em;color:var(--tx);margin-bottom:12px">DEPENDENCIA</div>
+      <div style="font-family:'JetBrains Mono';font-size:36px;color:#FF6F6F;font-weight:600;margin-bottom:8px">FRÁGIL</div>
+      <div style="font-size:19px;color:var(--mu);line-height:1.5">modelos cancelan,<br>equipos se enferman</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:-80px;left:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(220,60,60,.07) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S3: LA SOLUCIÓN ═══════════════════════════════ -->
+<section data-label="Lo Que Recibes">
+  <div class="ey">LO QUE RECIBES CON ORION</div>
+  <div class="htitle" style="font-size:78px;max-width:1300px">Una fábrica completa,<br>no una herramienta más.</div>
+  <div class="sub" style="margin-top:16px;margin-bottom:48px;max-width:1100px">Cada plan incluye los tres ejes de producción profesional. Tú eliges la cadencia y el volumen.</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;flex:1">
+    <div class="gc fade-in" style="padding:48px 40px;display:flex;flex-direction:column;border-top:2px solid var(--v)">
+      <div style="width:60px;height:60px;border-radius:14px;background:rgba(123,53,244,.18);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#7B35F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7"/><path d="M19 13l2 2-4 4"/></svg>
+      </div>
+      <div style="font-family:'Bebas Neue';font-size:40px;letter-spacing:.05em;color:var(--v);margin-bottom:14px">IDENTIDAD DIGITAL</div>
+      <div style="font-size:22px;color:var(--tx);line-height:1.6;flex:1">Tu portavoz IA o el catálogo Orion. Voz clonada, estilo coherente, presencia permanente.</div>
+      <div style="margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono';font-size:16px;color:var(--mu);letter-spacing:.05em">DISPONIBLE EN LOS 3 PLANES</div>
+    </div>
+    <div class="gc fade-in" style="padding:48px 40px;display:flex;flex-direction:column;border-top:2px solid var(--c)">
+      <div style="width:60px;height:60px;border-radius:14px;background:rgba(0,212,255,.12);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div style="font-family:'Bebas Neue';font-size:40px;letter-spacing:.05em;color:var(--c);margin-bottom:14px">PRODUCCIÓN MENSUAL</div>
+      <div style="font-size:22px;color:var(--tx);line-height:1.6;flex:1">Reels, videos publicitarios, imágenes, carruseles y talking heads. Todo listo en 24–72 horas.</div>
+      <div style="margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono';font-size:16px;color:var(--mu);letter-spacing:.05em">VOLUMEN SEGÚN PLAN</div>
+    </div>
+    <div class="gc fade-in" style="padding:48px 40px;display:flex;flex-direction:column;border-top:2px solid var(--g)">
+      <div style="width:60px;height:60px;border-radius:14px;background:rgba(0,229,160,.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      </div>
+      <div style="font-family:'Bebas Neue';font-size:40px;letter-spacing:.05em;color:var(--g);margin-bottom:14px">REVISIONES INCLUIDAS</div>
+      <div style="font-size:22px;color:var(--tx);line-height:1.6;flex:1">Una sesión semanal donde apruebas y ajustas. Sin costos sorpresa, sin créditos extras.</div>
+      <div style="margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono';font-size:16px;color:var(--mu);letter-spacing:.05em">SIN LETRA CHICA</div>
+    </div>
+  </div>
+  <div style="position:absolute;top:50%;right:-160px;transform:translateY(-50%);width:580px;height:580px;background:radial-gradient(circle,rgba(123,53,244,.14) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S4: FILOSOFÍA DE PRECIO ═══════════════════════════════ -->
+<section data-label="Cómo Cobramos">
+  <div class="ey">FILOSOFÍA DE INVERSIÓN</div>
+  <div class="htitle" style="font-size:78px;max-width:1400px">Tres planes claros.<br>Sin sorpresas. Sin créditos extras.</div>
+  <div class="sub" style="margin-top:16px;margin-bottom:48px;max-width:1100px">Cada plan tiene un precio fijo mensual. Lo que ves es lo que pagas. Las revisiones, los ajustes y la programación de contenido están incluidos.</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;flex:1">
+    <div class="gc fade-in" style="padding:42px 36px;display:flex;flex-direction:column">
+      <div style="font-family:'Bebas Neue';font-size:50px;color:var(--c);letter-spacing:.04em;margin-bottom:16px">UN PRECIO</div>
+      <div style="font-size:21px;color:var(--tx);line-height:1.55;flex:1">Un solo número al mes. Cero costos por revisión, por entregable extra o por ajuste de último minuto.</div>
+    </div>
+    <div class="gc fade-in" style="padding:42px 36px;display:flex;flex-direction:column">
+      <div style="font-family:'Bebas Neue';font-size:50px;color:var(--v);letter-spacing:.04em;margin-bottom:16px">UN ALCANCE</div>
+      <div style="font-size:21px;color:var(--tx);line-height:1.55;flex:1">Cadencia y volumen claros desde el día uno. Sabes exactamente cuántas piezas vas a recibir cada mes.</div>
+    </div>
+    <div class="gc fade-in" style="padding:42px 36px;display:flex;flex-direction:column">
+      <div style="font-family:'Bebas Neue';font-size:50px;color:var(--g);letter-spacing:.04em;margin-bottom:16px">UN COMPROMISO</div>
+      <div style="font-size:21px;color:var(--tx);line-height:1.55;flex:1">Mensualidad sin amarre. Si no funciona, te vas. La calidad es nuestro contrato real.</div>
+    </div>
+  </div>
+  <div style="margin-top:36px;padding:26px 38px;border-radius:14px;background:rgba(123,53,244,.08);border:1px solid rgba(123,53,244,.2);display:flex;gap:24px;align-items:center">
+    <div style="font-family:'Bebas Neue';font-size:42px;color:var(--v);letter-spacing:.04em;line-height:1">★</div>
+    <div style="flex:1">
+      <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--tx);margin-bottom:4px">UN COMPLEMENTO OPCIONAL</div>
+      <div style="font-size:18px;color:var(--mu);line-height:1.5">El paquete <strong style="color:var(--tx)">+SIGNAL</strong> se suma a cualquier plan. Lleva la programación, la publicación y la presencia diaria a piloto automático. Lo veremos en detalle más adelante.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ S5: NOVA ═══════════════════════════════ -->
+<section data-label="Plan NOVA">
+  <div class="ey" style="color:var(--c)">PLAN 01 · ENTRADA</div>
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:64px;flex:1">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:'Bebas Neue';font-size:138px;letter-spacing:.04em;line-height:.92;color:var(--c);text-shadow:0 0 60px rgba(0,212,255,.5);margin-bottom:8px">NOVA</div>
+      <div style="font-family:'JetBrains Mono';font-size:18px;letter-spacing:.18em;color:var(--mu);margin-bottom:36px;text-transform:uppercase">Una nueva luz para tu marca</div>
+      <div style="font-family:'JetBrains Mono';font-size:88px;font-weight:600;line-height:1;color:var(--tx);margin-bottom:6px">$600<span style="font-size:32px;color:var(--mu);font-weight:400"> /mes</span></div>
+      <div style="font-size:20px;color:var(--mu);margin-bottom:36px">USD · Mensualidad sin permanencia</div>
+      <div style="padding:22px 26px;border-radius:14px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2)">
+        <div style="font-family:'JetBrains Mono';font-size:14px;letter-spacing:.16em;color:var(--c);margin-bottom:10px">IDEAL PARA</div>
+        <div style="font-size:20px;color:var(--tx);line-height:1.55">Marcas que están comenzando con presencia digital, negocios locales y emprendedores que quieren probar el formato sin comprometerse a un volumen alto.</div>
+      </div>
+    </div>
+    <div class="gc" style="padding:48px 44px;display:flex;flex-direction:column">
+      <div style="font-family:'Bebas Neue';font-size:36px;letter-spacing:.04em;color:var(--tx);margin-bottom:24px">QUÉ INCLUYE CADA MES</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>4 reels o videos cortos</strong> de 15–30 segundos</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>8 imágenes feed</strong> fotorrealistas para Instagram y redes</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>1 carrusel narrativo</strong> de 5 a 8 piezas</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span>Acceso a un <strong>portavoz del catálogo Orion</strong></li>
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Una revisión semanal</strong> donde apruebas el contenido</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--tx);padding:12px 0 12px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Reporte mensual</strong> de entregables</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--mu);padding:12px 0 12px 32px;position:relative;opacity:.6"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12)"></span>Clonación digital propia (disponible desde Pulsar)</li>
+        <li style="font-size:21px;line-height:1.5;color:var(--mu);padding:12px 0 12px 32px;position:relative;opacity:.6"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12)"></span>Talking heads de 60s (disponible desde Pulsar)</li>
+      </ul>
+      <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:36px">
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">CADENCIA</div><div style="font-size:20px;color:var(--tx);font-weight:500">~3 publicaciones / semana</div></div>
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">ENTREGA</div><div style="font-size:20px;color:var(--tx);font-weight:500">Parrilla mensual en 72 hrs</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;top:-100px;right:-120px;width:520px;height:520px;background:radial-gradient(circle,rgba(0,212,255,.12) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S6: PULSAR ═══════════════════════════════ -->
+<section data-label="Plan PULSAR">
+  <div class="ey" style="color:var(--v)">PLAN 02 · INTERMEDIO · MÁS POPULAR</div>
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:64px;flex:1">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="display:inline-block;padding:6px 18px;border-radius:30px;background:linear-gradient(135deg,#7B35F4,#D132B8);font-family:'JetBrains Mono';font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:18px;font-weight:600;width:fit-content">★ Más popular</div>
+      <div style="font-family:'Bebas Neue';font-size:138px;letter-spacing:.04em;line-height:.92;color:var(--v);text-shadow:0 0 60px rgba(123,53,244,.6);margin-bottom:8px">PULSAR</div>
+      <div style="font-family:'JetBrains Mono';font-size:18px;letter-spacing:.18em;color:var(--mu);margin-bottom:36px;text-transform:uppercase">Señal constante. Pulso permanente.</div>
+      <div style="font-family:'JetBrains Mono';font-size:88px;font-weight:600;line-height:1;color:var(--tx);margin-bottom:6px">$1,000<span style="font-size:32px;color:var(--mu);font-weight:400"> /mes</span></div>
+      <div style="font-size:20px;color:var(--mu);margin-bottom:36px">USD · Mensualidad sin permanencia</div>
+      <div style="padding:22px 26px;border-radius:14px;background:rgba(123,53,244,.08);border:1px solid rgba(123,53,244,.25)">
+        <div style="font-family:'JetBrains Mono';font-size:14px;letter-spacing:.16em;color:var(--v);margin-bottom:10px">IDEAL PARA</div>
+        <div style="font-size:20px;color:var(--tx);line-height:1.55">Marcas que ya están en el juego y necesitan presencia diaria, ecommerce, fintech, fashion, y founders que quieren clonar su imagen para escalar contenido.</div>
+      </div>
+    </div>
+    <div class="gc" style="padding:48px 44px;display:flex;flex-direction:column;border:1.5px solid rgba(123,53,244,.4);background:rgba(123,53,244,.05)">
+      <div style="font-family:'Bebas Neue';font-size:36px;letter-spacing:.04em;color:var(--tx);margin-bottom:24px">QUÉ INCLUYE CADA MES</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>10 reels o videos cortos</strong> de 15–30 segundos</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>2 talking heads</strong> de 60 segundos para autoridad</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>1 video publicitario</strong> tipo comercial de producto</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>15 imágenes feed</strong> fotorrealistas</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>2 carruseles narrativos</strong> de 5 a 10 piezas</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--v);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(123,53,244,.25);border:1.5px solid var(--v)"></span><strong>SETUP DE CLONACIÓN DIGITAL INCLUIDO</strong> (voz + avatar)</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Una revisión semanal</strong> donde apruebas el contenido</li>
+        <li style="font-size:20px;line-height:1.45;color:var(--tx);padding:11px 0 11px 32px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Reporte mensual</strong> + sesión de estrategia trimestral</li>
+      </ul>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:36px">
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">CADENCIA</div><div style="font-size:20px;color:var(--tx);font-weight:500">5–6 publicaciones / sem</div></div>
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">ENTREGA</div><div style="font-size:20px;color:var(--tx);font-weight:500">Parrilla mensual en 48 hrs</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;top:-100px;right:-120px;width:520px;height:520px;background:radial-gradient(circle,rgba(123,53,244,.18) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S7: QUASAR ═══════════════════════════════ -->
+<section data-label="Plan QUASAR">
+  <div class="ey" style="color:var(--g)">PLAN 03 · AVANZADO</div>
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:64px;flex:1">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:'Bebas Neue';font-size:138px;letter-spacing:.04em;line-height:.92;color:var(--g);text-shadow:0 0 60px rgba(0,229,160,.5);margin-bottom:8px">QUASAR</div>
+      <div style="font-family:'JetBrains Mono';font-size:18px;letter-spacing:.18em;color:var(--mu);margin-bottom:36px;text-transform:uppercase">El brillo más alto de la galaxia</div>
+      <div style="font-family:'JetBrains Mono';font-size:88px;font-weight:600;line-height:1;color:var(--tx);margin-bottom:6px">$2,500<span style="font-size:32px;color:var(--mu);font-weight:400"> /mes</span></div>
+      <div style="font-size:20px;color:var(--mu);margin-bottom:36px">USD · Mensualidad sin permanencia</div>
+      <div style="padding:22px 26px;border-radius:14px;background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.22)">
+        <div style="font-family:'JetBrains Mono';font-size:14px;letter-spacing:.16em;color:var(--g);margin-bottom:10px">IDEAL PARA</div>
+        <div style="font-size:20px;color:var(--tx);line-height:1.55">Ecommerce con catálogos amplios, marcas con varias líneas de producto, retail, medios y empresas que requieren publicar todos los días con estética cinematográfica.</div>
+      </div>
+    </div>
+    <div class="gc" style="padding:42px 38px;display:flex;flex-direction:column">
+      <div style="font-family:'Bebas Neue';font-size:36px;letter-spacing:.04em;color:var(--tx);margin-bottom:22px">QUÉ INCLUYE CADA MES</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>25 reels o videos cortos</strong> de 15–30 segundos</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>5 talking heads</strong> de 60 segundos</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>3 videos publicitarios</strong> tipo comercial</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--g);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.25);border:1.5px solid var(--g)"></span><strong>1 video hero cinematográfico</strong> con calidad premium</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>25 imágenes feed</strong> fotorrealistas + variantes A/B</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>3 carruseles narrativos</strong> de 5 a 10 piezas</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--v);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(123,53,244,.25);border:1.5px solid var(--v)"></span><strong>SETUP DE CLONACIÓN DIGITAL</strong> + variantes de portavoz</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Revisión semanal</strong> + edición ágil de tendencias</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Estrategia mensual</strong> con análisis de performance</li>
+        <li style="font-size:19px;line-height:1.4;color:var(--tx);padding:9px 0 9px 32px;position:relative"><span style="position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Account manager dedicado</strong> con WhatsApp directo</li>
+      </ul>
+      <div style="margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:36px">
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">CADENCIA</div><div style="font-size:20px;color:var(--tx);font-weight:500">Diaria · L–S</div></div>
+        <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">ENTREGA</div><div style="font-size:20px;color:var(--tx);font-weight:500">Parrilla mensual en 24 hrs</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;top:-100px;right:-120px;width:520px;height:520px;background:radial-gradient(circle,rgba(0,229,160,.12) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S8: COMPARATIVA ═══════════════════════════════ -->
+<section data-label="Comparativa de Planes">
+  <div class="ey">RESUMEN COMPARATIVO</div>
+  <div class="htitle" style="font-size:60px;max-width:1300px;margin-bottom:14px">Los tres planes, lado a lado.</div>
+  <div class="sub" style="font-size:22px;margin-bottom:24px;max-width:1100px">Elige el ritmo que tu marca necesita. Siempre puedes escalar al siguiente nivel sin penalización.</div>
+  <div style="flex:1;display:flex;align-items:flex-start">
+    <table class="ctbl">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding-left:24px;font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);text-transform:uppercase;font-weight:400">CONCEPTO</th>
+          <th style="color:var(--c)">NOVA</th>
+          <th style="color:var(--v)">PULSAR ★</th>
+          <th style="color:var(--g)">QUASAR</th>
+        </tr>
+      </thead>
+      <tbody id="ctbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ S9: +SIGNAL ═══════════════════════════════ -->
+<section data-label="+SIGNAL">
+  <div class="ey" style="color:var(--m)">EL COMPLEMENTO QUE LO LLEVA TODO A AUTOMÁTICO</div>
+  <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:60px;flex:1">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:'Bebas Neue';font-size:128px;letter-spacing:.03em;line-height:.95;background:linear-gradient(135deg,#D132B8,#7B35F4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px">+SIGNAL</div>
+      <div style="font-family:'JetBrains Mono';font-size:18px;letter-spacing:.18em;color:var(--mu);margin-bottom:30px;text-transform:uppercase">Despreocúpate. Nosotros publicamos.</div>
+      <div style="font-family:'JetBrains Mono';font-size:62px;font-weight:600;line-height:1;color:var(--tx);margin-bottom:6px">+$400<span style="font-size:26px;color:var(--mu);font-weight:400"> /mes</span></div>
+      <div style="font-size:18px;color:var(--mu);margin-bottom:30px">USD · Se suma a cualquier plan</div>
+      <div style="padding:22px 26px;border-radius:14px;background:rgba(209,50,184,.06);border:1px solid rgba(209,50,184,.22)">
+        <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--m);margin-bottom:10px">CÓMO FUNCIONA</div>
+        <div style="font-size:18px;color:var(--tx);line-height:1.55">Después de aprobar la parrilla del mes, nosotros publicamos cada pieza en el día y la hora óptima en todas tus redes. Tú no entras a las plataformas a menos que quieras.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="gc fade-in" style="padding:30px 28px;border-left:3px solid var(--g)">
+        <div style="font-family:'Bebas Neue';font-size:28px;letter-spacing:.04em;color:var(--g);margin-bottom:14px">SÍ INCLUYE</div>
+        <ul style="list-style:none;padding:0;margin:0">
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Programación en Instagram, TikTok, Facebook</li>
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Publicación automatizada en horarios óptimos</li>
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Copywriting de captions y hashtags</li>
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Calendario editorial coordinado con tu marca</li>
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Reporte mensual de alcance y engagement</li>
+          <li style="font-size:17px;color:var(--tx);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Ajustes de cadencia según performance</li>
+        </ul>
+      </div>
+      <div class="gc fade-in" style="padding:30px 28px;border-left:3px solid rgba(255,184,69,.6)">
+        <div style="font-family:'Bebas Neue';font-size:28px;letter-spacing:.04em;color:var(--a);margin-bottom:14px">NO INCLUYE</div>
+        <ul style="list-style:none;padding:0;margin:0">
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Respuesta a comentarios o mensajes directos</li>
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Gestión de citas, reservas o agendas</li>
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Atención al cliente o soporte de ventas</li>
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Inversión en pauta o paid media</li>
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Estrategia de embudos y CRM</li>
+          <li style="font-size:17px;color:var(--mu);padding:7px 0 7px 22px;position:relative;line-height:1.45"><span style="position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:rgba(255,184,69,.5)"></span>Gestión de crisis o community management</li>
+        </ul>
+      </div>
+      <div class="gc fade-in" style="padding:26px 28px;grid-column:1 / -1;background:rgba(123,53,244,.08);border:1px solid rgba(123,53,244,.22)">
+        <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--c);margin-bottom:10px">CÓMO ARMAR TU PLAN</div>
+        <div style="display:flex;gap:14px;align-items:center;font-family:'Bebas Neue';font-size:34px;letter-spacing:.03em">
+          <span style="color:var(--c)">NOVA</span>
+          <span style="color:var(--mu);font-size:24px">o</span>
+          <span style="color:var(--v)">PULSAR</span>
+          <span style="color:var(--mu);font-size:24px">o</span>
+          <span style="color:var(--g)">QUASAR</span>
+          <span style="color:var(--mu);font-size:28px;font-family:'JetBrains Mono';font-weight:400;margin:0 6px">+</span>
+          <span style="background:linear-gradient(135deg,#D132B8,#7B35F4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">+SIGNAL</span>
+          <span style="color:var(--mu);font-size:24px;margin-left:8px">=</span>
+          <span style="color:var(--tx);margin-left:4px">FÁBRICA + DISTRIBUCIÓN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:-150px;right:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(209,50,184,.1) 0%,transparent 70%);pointer-events:none"></div>
+</section>
+
+<!-- ═══════════════════════════════ S10: SETUPS INICIALES ═══════════════════════════════ -->
+<section data-label="Setups Iniciales">
+  <div class="ey">CONFIGURACIONES UNA SOLA VEZ</div>
+  <div class="htitle" style="font-size:62px;max-width:1300px;margin-bottom:14px">Cómo arrancamos tu identidad digital.</div>
+  <div class="sub" style="font-size:24px;margin-bottom:38px;max-width:1100px">Tres caminos para empezar. El plan Pulsar y Quasar incluyen el setup. Si vas con Nova o quieres extras, estos son los costos únicos.</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1">
+    <div class="gc fade-in" style="padding:38px 32px;display:flex;flex-direction:column;border-top:2px solid var(--c)">
+      <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--c);margin-bottom:10px">OPCIÓN A · INCLUIDO EN NOVA</div>
+      <div style="font-family:'Bebas Neue';font-size:42px;letter-spacing:.04em;color:var(--tx);line-height:1;margin-bottom:14px">CATÁLOGO ORION</div>
+      <div style="font-size:18px;color:var(--mu);line-height:1.55;margin-bottom:22px">Eliges entre 5 modelos hombres + 5 mujeres ya creados, listos para producir contenido para tu marca el día uno.</div>
+      <ul style="list-style:none;padding:0;margin:0;flex:1">
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Avatares pre-validados estéticamente</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Voces ya clonadas y listas</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Modelo de renta · derechos de Orion</li>
+      </ul>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="font-family:'JetBrains Mono';font-size:38px;font-weight:600;color:var(--c)">$0</div>
+        <div style="font-size:15px;color:var(--mu)">incluido en cualquier plan</div>
+      </div>
+    </div>
+    <div class="gc fade-in" style="padding:38px 32px;display:flex;flex-direction:column;border-top:2px solid var(--v)">
+      <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--v);margin-bottom:10px">OPCIÓN B · CLONACIÓN DIGITAL</div>
+      <div style="font-family:'Bebas Neue';font-size:42px;letter-spacing:.04em;color:var(--tx);line-height:1;margin-bottom:14px">TU CARA, TU VOZ</div>
+      <div style="font-size:18px;color:var(--mu);line-height:1.55;margin-bottom:22px">Te clonamos a ti o a tu fundador. Tu rostro, tu voz, tu personalidad, replicada para producir contenido infinito.</div>
+      <ul style="list-style:none;padding:0;margin:0;flex:1">
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>20 fotos + 5 min de audio (te guiamos)</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Listo en 5 a 7 días hábiles</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Renta del clon mientras dure tu plan</li>
+      </ul>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="font-family:'JetBrains Mono';font-size:38px;font-weight:600;color:var(--v)">$450 <span style="font-size:18px;color:var(--mu);font-weight:400">o INCLUIDO</span></div>
+        <div style="font-size:15px;color:var(--mu)">si contratas Pulsar o Quasar</div>
+      </div>
+    </div>
+    <div class="gc fade-in" style="padding:38px 32px;display:flex;flex-direction:column;border-top:2px solid var(--m)">
+      <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--m);margin-bottom:10px">OPCIÓN C · INFLUENCER ÚNICO</div>
+      <div style="font-family:'Bebas Neue';font-size:42px;letter-spacing:.04em;color:var(--tx);line-height:1;margin-bottom:14px">PERSONAJE DESDE CERO</div>
+      <div style="font-size:18px;color:var(--mu);line-height:1.55;margin-bottom:22px">Diseñamos un embajador único para tu marca. Nombre, historia, estilo y voz exclusivos, con derechos transferibles.</div>
+      <ul style="list-style:none;padding:0;margin:0;flex:1">
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Brief estratégico + 3 propuestas de avatar</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>Voz, manifesto y guía visual exclusivos</li>
+        <li style="font-size:16px;color:var(--tx);padding:6px 0 6px 22px;position:relative"><span style="position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--g)"></span>10 piezas demo + transferencia de derechos</li>
+      </ul>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06)">
+        <div style="font-family:'JetBrains Mono';font-size:38px;font-weight:600;color:var(--m)">$1,000–$3,000</div>
+        <div style="font-size:15px;color:var(--mu)">según derechos · pago único</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ S11: ROI ═══════════════════════════════ -->
+<section data-label="Tu Retorno">
+  <div class="ey">EL VALOR REAL DE TU INVERSIÓN</div>
+  <div class="htitle" style="font-size:64px;max-width:1300px">Lo que antes costaba una sesión,<br>ahora es <span class="gti">un año de contenido diario</span>.</div>
+  <div class="sub" style="font-size:23px;margin-top:14px;margin-bottom:30px;max-width:1200px">Comparativa real entre producción tradicional en LATAM y producción con Orion AI.</div>
+  <div style="flex:1;display:flex;flex-direction:column">
+    <table class="roi-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding:14px 26px;font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);font-weight:400;text-transform:uppercase;border-bottom:2px solid rgba(255,255,255,.1)">CONCEPTO</th>
+          <th style="text-align:center;padding:14px 26px;font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--mu);font-weight:400;border-bottom:2px solid rgba(255,255,255,.1)">PRODUCCIÓN TRADICIONAL</th>
+          <th style="text-align:center;padding:14px 26px;font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--g);font-weight:400;border-bottom:2px solid rgba(255,255,255,.1)">CON ORION AI</th>
+          <th style="text-align:center;padding:14px 26px;font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--c);font-weight:400;text-transform:uppercase;border-bottom:2px solid rgba(255,255,255,.1)">TU AHORRO</th>
+        </tr>
+      </thead>
+      <tbody id="roibody"></tbody>
+    </table>
+  </div>
+  <div style="margin-top:30px;display:flex;gap:20px">
+    <div class="gc" style="padding:22px 32px;flex:1;text-align:center">
+      <div class="mono gv" style="font-size:46px;font-weight:600">−80%</div>
+      <div style="font-size:18px;color:var(--mu);margin-top:4px">de costo vs producción tradicional</div>
+    </div>
+    <div class="gc" style="padding:22px 32px;flex:1;text-align:center">
+      <div class="mono gc2" style="font-size:46px;font-weight:600">10×</div>
+      <div style="font-size:18px;color:var(--mu);margin-top:4px">más volumen al mismo presupuesto</div>
+    </div>
+    <div class="gc" style="padding:22px 32px;flex:1;text-align:center">
+      <div class="mono gg" style="font-size:46px;font-weight:600">24/7</div>
+      <div style="font-size:18px;color:var(--mu);margin-top:4px">presencia que nunca cancela</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ S12: CIERRE ═══════════════════════════════ -->
+<section data-label="Cómo Arrancamos" style="align-items:center;justify-content:flex-start;text-align:center;background:radial-gradient(circle at center,#1A0A30 0%,#070511 65%);padding-top:60px">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(123,53,244,.14) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+    <div class="ey" style="margin-bottom:20px">CÓMO ARRANCAMOS</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:84px;max-width:1500px;margin-bottom:22px;line-height:1.05;letter-spacing:.02em">
+      <div style="color:var(--tx)">DE TU SÍ A TU PRIMER POST</div>
+      <div style="background:linear-gradient(135deg,#7B35F4,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">EN 7 DÍAS HÁBILES.</div>
+    </div>
+    <div style="font-size:23px;color:var(--mu);max-width:1000px;line-height:1.55;margin-bottom:48px">Sin contratos eternos, sin amarres. Mensualidad clara. La calidad es nuestro contrato real.</div>
+
+    <div style="display:flex;gap:24px;margin-bottom:50px;align-items:stretch">
+      <div class="gc" style="padding:28px 30px;text-align:left;width:280px">
+        <div class="step-num" style="color:var(--c);text-shadow:0 0 30px rgba(0,212,255,.4)">01</div>
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--tx);letter-spacing:.04em;margin-top:6px;margin-bottom:8px">DIAGNÓSTICO</div>
+        <div style="font-size:16px;color:var(--mu);line-height:1.5">Sesión de 30 min. Definimos plan, portavoz y cadencia.</div>
+        <div style="margin-top:14px;font-family:'JetBrains Mono';font-size:13px;color:var(--c);letter-spacing:.1em">DÍA 1</div>
+      </div>
+      <div class="gc" style="padding:28px 30px;text-align:left;width:280px">
+        <div class="step-num" style="color:var(--v);text-shadow:0 0 30px rgba(123,53,244,.5)">02</div>
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--tx);letter-spacing:.04em;margin-top:6px;margin-bottom:8px">SETUP</div>
+        <div style="font-size:16px;color:var(--mu);line-height:1.5">Configuramos tu portavoz IA, brand kit y guías visuales.</div>
+        <div style="margin-top:14px;font-family:'JetBrains Mono';font-size:13px;color:var(--v);letter-spacing:.1em">DÍAS 2–4</div>
+      </div>
+      <div class="gc" style="padding:28px 30px;text-align:left;width:280px">
+        <div class="step-num" style="color:var(--m);text-shadow:0 0 30px rgba(209,50,184,.4)">03</div>
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--tx);letter-spacing:.04em;margin-top:6px;margin-bottom:8px">PARRILLA</div>
+        <div style="font-size:16px;color:var(--mu);line-height:1.5">Recibes el primer mes completo de contenido para revisar.</div>
+        <div style="margin-top:14px;font-family:'JetBrains Mono';font-size:13px;color:var(--m);letter-spacing:.1em">DÍAS 5–6</div>
+      </div>
+      <div class="gc" style="padding:28px 30px;text-align:left;width:280px">
+        <div class="step-num" style="color:var(--g);text-shadow:0 0 30px rgba(0,229,160,.4)">04</div>
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--tx);letter-spacing:.04em;margin-top:6px;margin-bottom:8px">PUBLICACIÓN</div>
+        <div style="font-size:16px;color:var(--mu);line-height:1.5">Tu marca empieza a publicar todos los días, en automático.</div>
+        <div style="margin-top:14px;font-family:'JetBrains Mono';font-size:13px;color:var(--g);letter-spacing:.1em">DÍA 7</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div style="font-family:'Bebas Neue';font-size:42px;letter-spacing:.1em;color:var(--tx);text-shadow:0 0 50px rgba(123,53,244,.55);white-space:nowrap">ORION <span style="color:var(--v)">AI</span> CONSULTING</div>
+      <div class="mono" style="font-size:18px;color:var(--mu);letter-spacing:.08em">CONTENIDO CON INTELIGENCIA ARTIFICIAL · LATAM</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ── STAGE SCALING ──
+const stage = document.getElementById('stage');
+function fitStage(){
+  const w = window.innerWidth, h = window.innerHeight;
+  const s = Math.min(w/1920, h/1080);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+fitStage();
+window.addEventListener('resize', fitStage);
+
+// ── PARTICLES ──
+const pcv = document.getElementById('pcv');
+const pctx = pcv.getContext('2d');
+function resizePcv(){pcv.width=window.innerWidth;pcv.height=window.innerHeight}
+resizePcv();
+window.addEventListener('resize',resizePcv);
+const pts = Array.from({length:42},()=>({
+  x:Math.random()*window.innerWidth,
+  y:Math.random()*window.innerHeight,
+  r:Math.random()*1.8+.4,
+  vx:(Math.random()-.5)*.25,
+  vy:-(Math.random()*.35+.1),
+  o:Math.random()*.18+.06
+}));
+(function ap(){
+  pctx.clearRect(0,0,pcv.width,pcv.height);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.y<-10){p.y=pcv.height+10;p.x=Math.random()*pcv.width}
+    if(p.x<-10)p.x=pcv.width+10;
+    if(p.x>pcv.width+10)p.x=-10;
+    pctx.beginPath();pctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    pctx.fillStyle=`rgba(123,53,244,${p.o})`;pctx.fill();
+  });
+  requestAnimationFrame(ap);
+})();
+
+// ── COMPARATIVE TABLE BUILDER ──
+const ctData = [
+  ['Inversión mensual', '$600 USD', '$1,000 USD', '$2,500 USD'],
+  ['Reels / videos cortos', '4', '10', '25'],
+  ['Talking heads 60s', '—', '2', '5'],
+  ['Videos publicitarios', '—', '1', '3'],
+  ['Video hero cinematográfico', '—', '—', '1'],
+  ['Imágenes feed', '8', '15', '25 + variantes'],
+  ['Carruseles narrativos', '1', '2', '3'],
+  ['Cadencia de publicación', '~3 / sem', '5–6 / sem', 'Diaria L–S'],
+  ['Tiempo de entrega de parrilla', '72 hrs', '48 hrs', '24 hrs'],
+  ['Revisiones', '1 / sem incluida', '1 / sem incluida', '1 / sem + tendencias'],
+  ['Setup de clonación digital', 'Catálogo Orion', 'Incluido', 'Incluido + variantes'],
+  ['Estrategia y reportes', 'Reporte mensual', 'Mensual + estrategia trim.', 'Mensual + análisis'],
+  ['Account manager', 'Estándar', 'Asignado', 'Dedicado · WhatsApp'],
+  ['Compatible con +SIGNAL', '✓', '✓', '✓'],
+];
+const ctbody = document.getElementById('ctbody');
+ctData.forEach((r,i)=>{
+  const tr = document.createElement('tr');
+  if (i === 0) tr.style.background = 'rgba(123,53,244,.04)';
+  let cells = `<td style="font-family:'JetBrains Mono';font-size:16px">${r[0]}</td>`;
+  for (let j=1; j<4; j++) {
+    const v = r[j];
+    let style = '';
+    if (i === 0) style = 'font-family:\'JetBrains Mono\';font-size:22px;font-weight:600;color:var(--tx)';
+    else if (v === '—') style = 'color:rgba(255,255,255,.18);font-size:20px';
+    else if (v === '✓') style = 'color:var(--g);font-size:20px;font-weight:600';
+    else style = 'color:var(--tx);font-family:\'JetBrains Mono\';font-size:17px';
+    cells += `<td style="${style}">${v}</td>`;
+  }
+  tr.innerHTML = cells;
+  ctbody.appendChild(tr);
+});
+
+// ── ROI TABLE BUILDER ──
+const roiData = [
+  ['Tiempo de producción mensual', '40–60 hrs', '3–5 hrs supervisión', '−92%'],
+  ['Costo por campaña', '$2K–$10K USD', 'Fracción mensual', '−80%'],
+  ['Piezas / mes', '4–10', '30–100+', '10×'],
+  ['Velocidad a tendencias', '1–3 semanas', '24–48 horas', '20× más rápido'],
+  ['Costo por video 15s', '$80–$300', 'Incluido en plan', '−85%'],
+  ['Disponibilidad del portavoz', '9–6 L–V', '24/7 · 365 días', 'Ilimitada'],
+  ['Riesgo reputacional', 'Alto', 'Nulo', '100%'],
+  ['Escalabilidad', 'Limitada', 'Ilimitada', '∞'],
+];
+const roibody = document.getElementById('roibody');
+roiData.forEach(r=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="roi-label">${r[0]}</td>
+    <td class="roi-old">${r[1]}</td>
+    <td class="roi-new">${r[2]}</td>
+    <td class="roi-save">${r[3]}</td>`;
+  roibody.appendChild(tr);
+});
+
+// ── NAV ──
+const sections = document.querySelectorAll('#stage section');
+const N = sections.length;
+let cur = 0;
+
+const dotsCont = document.getElementById('dots');
+for (let i=0; i<N; i++){
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0 ? ' on' : '');
+  d.addEventListener('click', () => goTo(i));
+  dotsCont.appendChild(d);
+}
+
+function goTo(i){
+  if (i < 0) i = 0;
+  if (i >= N) i = N-1;
+  if (i === cur) return;
+  sections[cur].classList.remove('on');
+  sections[i].classList.add('on');
+  cur = i;
+  document.getElementById('sc').textContent = String(i+1).padStart(2,'0') + '/' + String(N).padStart(2,'0');
+  document.getElementById('prog').style.width = ((i+1)/N*100) + '%';
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on', j===i));
+  // trigger fade-in animations
+  setTimeout(() => {
+    sections[i].querySelectorAll('.fade-in').forEach((el,k) => {
+      el.classList.remove('show');
+      setTimeout(()=>el.classList.add('show'), 60 + k*120);
+    });
+  }, 30);
+}
+
+document.getElementById('prev').addEventListener('click', () => goTo(cur-1));
+document.getElementById('next').addEventListener('click', () => goTo(cur+1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); goTo(cur+1); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goTo(cur-1); }
+  if (e.key === 'Home') goTo(0);
+  if (e.key === 'End') goTo(N-1);
+});
+
+// initial fade-in trigger
+setTimeout(() => {
+  sections[0].querySelectorAll('.fade-in').forEach((el,k) => setTimeout(()=>el.classList.add('show'), 200 + k*150));
+}, 100);
+
+// update counter on load
+document.getElementById('sc').textContent = '01/' + String(N).padStart(2,'0');
+document.getElementById('prog').style.width = (1/N*100) + '%';
+</script>
+</body>
+</html>
