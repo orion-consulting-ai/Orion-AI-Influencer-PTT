@@ -60,9 +60,14 @@ section{
 
 /* FBI rows */
 .fbi{display:flex;flex-direction:column;gap:14px;margin-top:28px;flex:1}
-.frow{display:grid;grid-template-columns:168px 1fr 320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.05);min-height:110px}
+.frow{display:grid;grid-template-columns:168px 1fr 320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.05);min-height:140px}
 .flabel{display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.1em;text-align:center;padding:16px}
-.fdesc{padding:22px 32px;border-left:1px solid rgba(255,255,255,.05);font-size:24px;line-height:1.55;display:flex;align-items:center}
+.fdesc{padding:20px 30px;border-left:1px solid rgba(255,255,255,.05);font-size:22px;line-height:1.4;display:flex;align-items:center}
+.fdesc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;width:100%}
+.fdesc li{position:relative;padding-left:26px;font-size:21px;line-height:1.35}
+.fdesc li::before{content:'';position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;background:var(--v);box-shadow:0 0 12px rgba(123,53,244,.5)}
+.fc .fdesc li::before{background:var(--c);box-shadow:0 0 12px rgba(0,212,255,.5)}
+.fg .fdesc li::before{background:var(--g);box-shadow:0 0 12px rgba(0,229,160,.5)}
 .fstat{padding:22px 26px;border-left:1px solid rgba(255,255,255,.05);font-family:'JetBrains Mono',monospace;font-size:24px;line-height:1.4;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5px}
 .fv .flabel{background:rgba(123,53,244,.28);color:var(--v)} .fv{background:rgba(123,53,244,.08)}
 .fc .flabel{background:rgba(0,212,255,.18);color:var(--c)} .fc{background:rgba(0,212,255,.04)}
@@ -146,9 +151,9 @@ section{
 <body>
 
 <canvas id="pcv"></canvas>
-<div id="prog" style="width:4.55%"></div>
+<div id="prog" style="width:4.76%"></div>
 <div class="logo-fixed"><img src="uploads/Orion Consulting AI Logo.png" alt="Orion AI Consulting" style="height:52px;filter:invert(1);mix-blend-mode:screen;display:block"></div>
-<div id="sc">01/22</div>
+<div id="sc">01/21</div>
 <div id="dots"></div>
 
 <deck-stage width="1920" height="1080">
@@ -285,17 +290,29 @@ section{
   <div class="fbi">
     <div class="frow fv">
       <div class="flabel">FEATURE</div>
-      <div class="fdesc">Clonamos la voz del portavoz a partir de <strong>2–5 min de audio</strong>. El clon narra cualquier script en segundos, en cualquier idioma.</div>
+      <div class="fdesc"><ul>
+        <li>Clonamos la voz desde <strong>2–5 min de audio</strong></li>
+        <li>Narra cualquier script en segundos</li>
+        <li>Funciona en cualquier idioma</li>
+      </ul></div>
       <div class="fstat"><div>2–5 min audio</div><div>→ clon listo en</div><div style="color:var(--v);font-weight:600;font-size:26px">24–48 horas</div></div>
     </div>
     <div class="frow fc">
       <div class="flabel">BENEFICIO</div>
-      <div class="fdesc">Ya no necesitas grabar. El sistema genera audio en segundos. Tu voz siempre disponible, a cualquier hora.</div>
+      <div class="fdesc"><ul>
+        <li>Ya no necesitas grabar nunca más</li>
+        <li>El sistema genera audio en segundos</li>
+        <li>Tu voz siempre disponible · 24/7</li>
+      </ul></div>
       <div class="fstat"><div>De <span style="font-weight:600">3–5 hrs/sem</span></div><div>grabación a</div><div style="color:var(--g);font-weight:600;font-size:26px">0 horas</div></div>
     </div>
     <div class="frow fg">
       <div class="flabel">IMPACTO</div>
-      <div class="fdesc">La marca produce <strong>10× más contenido en video</strong> sin depender de la agenda del creador. La voz nunca cancela.</div>
+      <div class="fdesc"><ul>
+        <li><strong>10× más contenido</strong> en video</li>
+        <li>Sin depender de la agenda del creador</li>
+        <li>La voz nunca cancela ni se enferma</li>
+      </ul></div>
       <div class="fstat"><div>Ahorro</div><div style="color:var(--g);font-weight:600;font-size:26px">15–30 hrs/mes</div><div>de grabación</div></div>
     </div>
   </div>
@@ -314,17 +331,29 @@ section{
   <div class="fbi">
     <div class="frow fv">
       <div class="flabel">FEATURE</div>
-      <div class="fdesc">Personajes fotorrealistas entrenados en rasgos del creador o diseñados para la marca. Hasta <strong>500 imágenes consistentes/mes</strong>.</div>
+      <div class="fdesc"><ul>
+        <li>Personajes fotorrealistas y exclusivos</li>
+        <li>Entrenados en rasgos del creador o desde cero</li>
+        <li>Hasta <strong>500 imágenes consistentes/mes</strong></li>
+      </ul></div>
       <div class="fstat"><div>1 foto-referencia</div><div>→ avatar listo en</div><div style="color:var(--v);font-weight:600;font-size:26px">7 días</div></div>
     </div>
     <div class="frow fc">
       <div class="flabel">BENEFICIO</div>
-      <div class="fdesc">Embajador exclusivo sin contrato ni riesgo reputacional. Disponible los 365 días del año, a cualquier hora.</div>
+      <div class="fdesc"><ul>
+        <li>Embajador exclusivo · sin contrato</li>
+        <li>Sin riesgo reputacional</li>
+        <li>Disponible 365 días al año, a cualquier hora</li>
+      </ul></div>
       <div class="fstat" style="flex-direction:column;gap:4px"><div><strong style="color:var(--g)">0</strong> cancelaciones</div><div><strong style="color:var(--g)">0</strong> conflictos</div><div><strong style="color:var(--g)">0</strong> escándalos</div></div>
     </div>
     <div class="frow fg">
       <div class="flabel">IMPACTO</div>
-      <div class="fdesc">El costo por imagen de influencer pasa de <strong>cientos a centavos</strong>. Escala sin límite presupuestario.</div>
+      <div class="fdesc"><ul>
+        <li>Costo por imagen pasa de <strong>cientos a centavos</strong></li>
+        <li>Escala sin límite presupuestario</li>
+        <li>Sin shoots · sin locaciones · sin equipo</li>
+      </ul></div>
       <div class="fstat"><div>Ahorro</div><div style="color:var(--g);font-weight:600;font-size:26px">60–90%</div><div>vs modelo humano</div></div>
     </div>
   </div>
@@ -453,80 +482,73 @@ section{
   </div>
 </section>
 
-<!-- ═══════════════════════════════ S8: CONVERSIÓN ═══════════════════════════════ -->
-<section data-label="Conversión y Ventas">
-  <div class="htitle" style="font-size:76px">El contenido trabaja 24/7.<br>Los agentes convierten 24/7.</div>
-  <div class="fbi">
-    <div class="frow fv">
-      <div class="flabel">FEATURE</div>
-      <div class="fdesc">Agentes conversacionales en IG DMs, WhatsApp y sitio web con personalidad de la marca. <strong>Respuesta en &lt; 3 segundos</strong>.</div>
-      <div class="fstat"><div>24 horas · 7 días</div><div style="color:var(--v);font-weight:600;font-size:26px">0 espera</div></div>
-    </div>
-    <div class="frow fc">
-      <div class="flabel">BENEFICIO</div>
-      <div class="fdesc">Ningún lead se pierde por falta de respuesta rápida. El agente califica, nutre y convierte sin intervención humana.</div>
-      <div class="fstat"><div>Respuesta <span style="color:var(--c);font-weight:600">100%</span></div><div>vs 30–40% manual</div></div>
-    </div>
-    <div class="frow fg">
-      <div class="flabel">IMPACTO</div>
-      <div class="fdesc">Marcas con respuesta automática reportan mayor conversión en campañas de performance. El lead se convierte antes de enfriarse.</div>
-      <div class="fstat"><div>Conversión estimada</div><div style="color:var(--g);font-weight:600;font-size:26px">+20–35%</div></div>
-    </div>
-  </div>
-  <div style="display:flex;gap:10px;margin-top:20px;align-items:flex-end">
-    <div style="padding:14px 22px;background:rgba(123,53,244,.15);border-radius:16px 16px 16px 4px;max-width:480px;font-size:24px;color:var(--tx)">Hola, quiero más info sobre sus productos 👋</div>
-    <div style="padding:14px 22px;background:rgba(123,53,244,.32);border-radius:16px 16px 4px 16px;max-width:620px;font-size:24px;color:var(--tx)">¡Hola! Con gusto te ayudo. ¿Qué producto te interesa? Tenemos una oferta especial hoy 🎯 <span class="mono" style="font-size:24px;color:var(--c);display:block;margin-top:4px">← respuesta en 1.8s</span></div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════ S11: CAPACIDAD ═══════════════════════════════ -->
+<!-- ═══════════════════════════════ S10: CAPACIDAD (PLAN QUASAR) ═══════════════════════════════ -->
 <section data-label="Capacidad Operativa">
-  <div class="ey">OUTPUT MENSUAL · UN EQUIPO DE 2 PERSONAS</div>
-  <div class="htitle" style="font-size:72px">Un equipo de 2 personas.<br>250 piezas al mes. Todos los días.</div>
-  <div style="display:grid;grid-template-columns:1fr 340px;gap:56px;flex:1;margin-top:24px;align-items:center">
-    <div style="display:flex;flex-direction:column;gap:22px">
+  <div class="ey">OUTPUT MENSUAL · PLAN QUASAR</div>
+  <div class="htitle" style="font-size:68px">Plan QUASAR.<br>+100 piezas al mes. Todos los días.</div>
+  <div class="sub" style="font-size:22px;margin-top:8px;margin-bottom:18px;max-width:1200px">Lo que recibe una marca con el plan más alto. Detalle real de entregables, sin letra chica.</div>
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:56px;flex:1;margin-top:14px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:18px">
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:24px;color:var(--tx)">Imágenes fotorrealistas</span>
-          <span class="mono" style="font-size:24px;color:var(--v)">200/mes</span>
+          <span style="font-size:22px;color:var(--tx)">Imágenes feed · variantes A/B</span>
+          <span class="mono" style="font-size:22px;color:var(--v)">50 / mes</span>
         </div>
-        <div class="pbar"><div class="pfill" style="background:var(--v)" data-t="80"></div></div>
+        <div class="pbar"><div class="pfill" style="background:var(--v)" data-t="100"></div></div>
       </div>
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:24px;color:var(--tx)">Videos 15–30s</span>
-          <span class="mono" style="font-size:24px;color:var(--c)">50/mes</span>
+          <span style="font-size:22px;color:var(--tx)">Carruseles narrativos · piezas</span>
+          <span class="mono" style="font-size:22px;color:var(--c)">30 / mes</span>
         </div>
-        <div class="pbar"><div class="pfill" style="background:var(--c)" data-t="20"></div></div>
+        <div class="pbar"><div class="pfill" style="background:var(--c)" data-t="60"></div></div>
       </div>
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:24px;color:var(--tx)">Talking head 60s</span>
-          <span class="mono" style="font-size:24px;color:var(--g)">15/mes</span>
+          <span style="font-size:22px;color:var(--tx)">Reels y videos cortos 15–30s</span>
+          <span class="mono" style="font-size:22px;color:var(--g)">25 / mes</span>
         </div>
-        <div class="pbar"><div class="pfill" style="background:var(--g)" data-t="6"></div></div>
+        <div class="pbar"><div class="pfill" style="background:var(--g)" data-t="50"></div></div>
       </div>
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:24px;color:var(--tx)">Variantes A/B</span>
-          <span class="mono" style="font-size:24px;color:var(--m)">40/mes</span>
+          <span style="font-size:22px;color:var(--tx)">Talking heads 60s</span>
+          <span class="mono" style="font-size:22px;color:var(--m)">5 / mes</span>
         </div>
-        <div class="pbar"><div class="pfill" style="background:var(--m)" data-t="16"></div></div>
+        <div class="pbar"><div class="pfill" style="background:var(--m)" data-t="10"></div></div>
       </div>
       <div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:24px;color:var(--tx)">Captions optimizados</span>
-          <span class="mono" style="font-size:24px;color:var(--v)">Ilimitados</span>
+          <span style="font-size:22px;color:var(--tx)">Videos publicitarios · comercial</span>
+          <span class="mono" style="font-size:22px;color:var(--v)">3 / mes</span>
+        </div>
+        <div class="pbar"><div class="pfill" style="background:var(--v)" data-t="6"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:22px;color:var(--tx)">Video hero cinematográfico</span>
+          <span class="mono" style="font-size:22px;color:var(--a)">1 / mes</span>
+        </div>
+        <div class="pbar"><div class="pfill" style="background:var(--a)" data-t="2"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:22px;color:var(--tx)">Captions y hashtags</span>
+          <span class="mono" style="font-size:22px;color:var(--c)">Ilimitados</span>
         </div>
         <div class="pbar"><div class="pfill" style="background:linear-gradient(90deg,var(--v),var(--c))" data-t="100"></div></div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-      <div id="ctr10" class="mono gtb" style="font-size:140px;font-weight:600;line-height:1">0</div>
-      <div style="font-size:24px;color:var(--mu);text-align:center">piezas totales<br>por mes</div>
-      <div style="margin-top:12px;padding:14px 22px;background:rgba(123,53,244,.1);border-radius:10px;border:1px solid rgba(123,53,244,.2);text-align:center">
-        <div class="mono" style="font-size:24px;color:var(--c)">72 horas</div>
-        <div style="font-size:24px;color:var(--mu);margin-top:3px">primer mes completo</div>
+      <div id="ctr10" class="mono gtb" style="font-size:130px;font-weight:600;line-height:1">0</div>
+      <div style="font-size:22px;color:var(--mu);text-align:center">piezas / mes<br>con QUASAR</div>
+      <div style="margin-top:14px;padding:14px 22px;background:rgba(0,212,255,.08);border-radius:10px;border:1px solid rgba(0,212,255,.2);text-align:center">
+        <div class="mono" style="font-size:22px;color:var(--c)">24 horas</div>
+        <div style="font-size:18px;color:var(--mu);margin-top:3px">para entregar la parrilla</div>
+      </div>
+      <div style="margin-top:6px;padding:12px 22px;background:rgba(123,53,244,.08);border-radius:10px;border:1px solid rgba(123,53,244,.2);text-align:center">
+        <div class="mono" style="font-size:18px;color:var(--v)">L–S diaria</div>
+        <div style="font-size:16px;color:var(--mu);margin-top:3px">cadencia de publicación</div>
       </div>
     </div>
   </div>
@@ -534,53 +556,77 @@ section{
 
 <!-- ═══════════════════════════════ S11: ECOSISTEMA ═══════════════════════════════ -->
 <section data-label="Ecosistema Integrado">
-  <div class="htitle" style="font-size:58px;max-width:900px;padding-bottom:8px">El contenido es el combustible.<br>La estrategia es el motor.</div>
-  <div class="sub" style="margin-top:20px;margin-bottom:0;max-width:1000px">Orion integra identidad IA, producción, distribución, paid media, SEO y conversión en un solo ecosistema.</div>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center">
-    <svg id="ecosvg" width="860" height="520" viewBox="-30 -20 920 560" style="overflow:visible">
-      <defs>
-        <radialGradient id="cg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#7B35F4" stop-opacity=".5"/>
-          <stop offset="100%" stop-color="#7B35F4" stop-opacity="0"/>
-        </radialGradient>
-        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#7B35F4"/>
-          <stop offset="100%" stop-color="#00D4FF"/>
-        </linearGradient>
-        <filter id="gf"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      </defs>
-      <!-- glow behind center -->
-      <circle cx="430" cy="260" r="130" fill="url(#cg)" id="ecg" opacity="1"/>
-      <!-- Lines -->
-      <g id="elines" opacity="1" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round">
-        <line x1="430" y1="260" x2="430" y2="52"/>
-        <line x1="430" y1="260" x2="635" y2="133"/>
-        <line x1="430" y1="260" x2="720" y2="310"/>
-        <line x1="430" y1="260" x2="600" y2="468"/>
-        <line x1="430" y1="260" x2="260" y2="468"/>
-        <line x1="430" y1="260" x2="140" y2="310"/>
-        <line x1="430" y1="260" x2="225" y2="133"/>
-      </g>
-      <!-- Center node -->
-      <circle cx="430" cy="260" r="78" fill="rgba(123,53,244,.15)" stroke="#7B35F4" stroke-width="1.8" id="ecn" opacity="1"/>
-      <text x="430" y="246" text-anchor="middle" font-family="Bebas Neue" font-size="26" fill="#F0EAFF" id="ect1" opacity="1">TU</text>
-      <text x="430" y="276" text-anchor="middle" font-family="Bebas Neue" font-size="26" fill="#F0EAFF" id="ect2" opacity="1">MARCA</text>
-      <!-- Outer nodes (7 positions) -->
-      <!-- 0: top -->
-      <g class="en" data-i="0" opacity="1"><circle cx="430" cy="52" r="62" fill="rgba(123,53,244,.15)" stroke="#7B35F4" stroke-width="1.5"/><text x="430" y="38" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#7B35F4">IDENTIDAD</text><text x="430" y="66" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#7B35F4">IA</text></g>
-      <!-- 1: top-right -->
-      <g class="en" data-i="1" opacity="1"><circle cx="635" cy="133" r="62" fill="rgba(0,212,255,.1)" stroke="#00D4FF" stroke-width="1.5"/><text x="635" y="119" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00D4FF">CONTENIDO</text><text x="635" y="147" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00D4FF">IA</text></g>
-      <!-- 2: right -->
-      <g class="en" data-i="2" opacity="1"><circle cx="720" cy="310" r="62" fill="rgba(0,229,160,.1)" stroke="#00E5A0" stroke-width="1.5"/><text x="720" y="296" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00E5A0">AUTOMA-</text><text x="720" y="324" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00E5A0">TIZACIÓN</text></g>
-      <!-- 3: bottom-right -->
-      <g class="en" data-i="3" opacity="1"><circle cx="600" cy="468" r="62" fill="rgba(209,50,184,.1)" stroke="#D132B8" stroke-width="1.5"/><text x="600" y="454" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#D132B8">PAID</text><text x="600" y="482" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#D132B8">MEDIA</text></g>
-      <!-- 4: bottom-left -->
-      <g class="en" data-i="4" opacity="1"><circle cx="260" cy="468" r="62" fill="rgba(0,229,160,.1)" stroke="#00E5A0" stroke-width="1.5"/><text x="260" y="454" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00E5A0">SEO</text><text x="260" y="482" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00E5A0">/ GEO</text></g>
-      <!-- 5: left -->
-      <g class="en" data-i="5" opacity="1"><circle cx="140" cy="310" r="62" fill="rgba(123,53,244,.15)" stroke="#7B35F4" stroke-width="1.5"/><text x="140" y="296" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#7B35F4">CONVER-</text><text x="140" y="324" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#7B35F4">SIÓN</text></g>
-      <!-- 6: top-left -->
-      <g class="en" data-i="6" opacity="1"><circle cx="225" cy="133" r="62" fill="rgba(0,212,255,.1)" stroke="#00D4FF" stroke-width="1.5"/><text x="225" y="119" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00D4FF">ANALY-</text><text x="225" y="147" text-anchor="middle" font-family="Bebas Neue" font-size="24" fill="#00D4FF">TICS</text></g>
-    </svg>
+  <div class="ey">ECOSISTEMA INTEGRADO</div>
+  <div class="htitle" style="font-size:62px;max-width:1100px">El contenido es el combustible.<br>La estrategia es el motor.</div>
+  <div class="sub" style="margin-top:12px;margin-bottom:24px;max-width:1100px;font-size:22px">Orion integra identidad, producción, distribución, paid media, SEO y analítica en un solo ecosistema.</div>
+
+  <div style="display:flex;justify-content:center;margin-bottom:24px">
+    <div class="fade-in" style="padding:22px 56px;border-radius:18px;background:linear-gradient(135deg,rgba(123,53,244,.18),rgba(0,212,255,.12));border:1.5px solid rgba(123,53,244,.4);text-align:center;box-shadow:0 0 60px rgba(123,53,244,.3)">
+      <div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--c);margin-bottom:6px">CENTRO DEL SISTEMA</div>
+      <div style="font-family:'Bebas Neue';font-size:48px;letter-spacing:.05em;color:var(--tx);text-shadow:0 0 30px rgba(123,53,244,.5);line-height:1">TU MARCA</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:20px;flex:1;min-height:0">
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--v)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(123,53,244,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7B35F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--v);line-height:1">IDENTIDAD IA</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Tu portavoz IA: voz clonada, avatar fotorrealista, presencia consistente.</div>
+    </div>
+
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--c)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(0,212,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--c);line-height:1">CONTENIDO IA</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Reels, talking heads, imágenes y carruseles. Producción en 24–72 horas.</div>
+    </div>
+
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--g)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(0,229,160,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--g);line-height:1">AUTOMATIZACIÓN</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Programación + publicación en horarios óptimos. Marca activa 24/7.</div>
+    </div>
+
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--m)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(209,50,184,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D132B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--m);line-height:1">PAID MEDIA</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Variantes A/B y creativos optimizados para campañas de performance.</div>
+    </div>
+
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--g)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(0,229,160,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00E5A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--g);line-height:1">SEO / GEO</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Contenido optimizado para descubrimiento orgánico y búsquedas locales.</div>
+    </div>
+
+    <div class="gc fade-in" style="padding:24px 28px;display:flex;flex-direction:column;border-top:2px solid var(--a)">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(255,184,69,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFB845" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:.04em;color:var(--a);line-height:1">ANALYTICS</div>
+      </div>
+      <div style="font-size:17px;color:var(--mu);line-height:1.5">Reportes mensuales con alcance, engagement y ajustes según data.</div>
+    </div>
   </div>
 </section>
 
@@ -669,8 +715,8 @@ section{
         <li style="font-size:20px;line-height:1.5;color:var(--tx);padding:11px 0 11px 30px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span>Acceso a un <strong>portavoz del catálogo Orion</strong></li>
         <li style="font-size:20px;line-height:1.5;color:var(--tx);padding:11px 0 11px 30px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Una revisión semanal</strong> donde apruebas el contenido</li>
         <li style="font-size:20px;line-height:1.5;color:var(--tx);padding:11px 0 11px 30px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(0,229,160,.18);border:1.5px solid var(--g)"></span><strong>Reporte mensual</strong> de entregables</li>
-        <li style="font-size:20px;line-height:1.5;color:var(--mu);padding:11px 0 11px 30px;position:relative;opacity:.55"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12)"></span>Clonación digital propia <span style="font-size:15px">(disponible desde Pulsar)</span></li>
-        <li style="font-size:20px;line-height:1.5;color:var(--mu);padding:11px 0 11px 30px;position:relative;opacity:.55"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12)"></span>Talking heads de 60s <span style="font-size:15px">(disponible desde Pulsar)</span></li>
+        <li style="font-size:19px;line-height:1.5;color:rgba(240,234,255,.7);padding:11px 0 11px 30px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,184,69,.18);border:1.5px solid rgba(255,184,69,.55)"></span>Clonación digital propia <span class="mono" style="font-size:12px;color:var(--a);letter-spacing:.08em;background:rgba(255,184,69,.12);padding:3px 9px;border-radius:10px;margin-left:6px;text-transform:uppercase">› desde Pulsar</span></li>
+        <li style="font-size:19px;line-height:1.5;color:rgba(240,234,255,.7);padding:11px 0 11px 30px;position:relative"><span style="position:absolute;left:0;top:18px;width:14px;height:14px;border-radius:50%;background:rgba(255,184,69,.18);border:1.5px solid rgba(255,184,69,.55)"></span>Talking heads de 60s <span class="mono" style="font-size:12px;color:var(--a);letter-spacing:.08em;background:rgba(255,184,69,.12);padding:3px 9px;border-radius:10px;margin-left:6px;text-transform:uppercase">› desde Pulsar</span></li>
       </ul>
       <div style="margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:36px">
         <div><div style="font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;color:var(--mu);margin-bottom:4px">CADENCIA</div><div style="font-size:20px;color:var(--tx);font-weight:500">~3 publicaciones / sem</div></div>
@@ -1058,7 +1104,7 @@ if(roibody){
 }
 
 /* ── NAV DOTS ── */
-const N=22;
+const N=21;
 const dotsCont=document.getElementById('dots');
 for(let i=0;i<N;i++){
   const d=document.createElement('div');
@@ -1144,11 +1190,11 @@ function onSlide(idx){
     document.querySelectorAll('#s1kpis .gc').forEach((el,i)=>setTimeout(()=>el.classList.add('on'),300+i*180));
   }
 
-  if(idx===10){
-    // Capacity slide (now S11 in 1-based, idx 10 in 0-based)
+  if(idx===9){
+    // Capacity slide (S10 in 1-based, idx 9 in 0-based after removing Conversión)
     setTimeout(()=>{
       document.querySelectorAll('.pfill').forEach((b,i)=>setTimeout(()=>b.style.width=b.dataset.t+'%',i*150));
-      counter(document.getElementById('ctr10'),250,1400,'','');
+      counter(document.getElementById('ctr10'),114,1400,'','');
     },300);
   }
 }
